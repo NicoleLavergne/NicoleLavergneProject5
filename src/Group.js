@@ -39,31 +39,56 @@ class Group extends Component {
 
     submitNames = (e) => {
         e.preventDefault();
-        const updatedGroupMembers = [...this.state.groupMembers]
+        const beforeSantaGroupMembers = [...this.state.groupMembers]
 
-        updatedGroupMembers.push(this.state.userNameInput);
+        beforeSantaGroupMembers.push(this.state.userNameInput);
+
+        
         this.setState({
-            groupMembers: updatedGroupMembers,
+            groupMembers: beforeSantaGroupMembers,
             userNameInput:'',
         })
-
+        
+        console.log(beforeSantaGroupMembers);
     }
-
+    
     handleSubmit = (e) => {
         e.preventDefault();
+        
+        const beforeSantaGroupMembers = [...this.state.groupMembers]
+        console.log("this is before santa array", beforeSantaGroupMembers);
+
+        const arrayShuffle = require('shuffle-array'),
+            afterSanta = beforeSantaGroupMembers;
+
+            arrayShuffle(afterSanta);
+
+            console.log("this is after santa", afterSanta);
+        
 
         const dbRef = firebase.database().ref();
-
+        
         dbRef.push({
+            afterSanta,
             userGroupInput:this.state.userGroupInput,
-            userNameInput:this.state.userNameInput
+            // userNameInput:this.state.userNameInput
         })
         
         this.setState({
             userGroupInput:'',
             userNameInput:'',
         });
+
+    
+        
     }
+
+    // removeName = (e) => {
+    //     e.preventDefault();
+
+    //     this.state.userNameInput.remove();
+    // }
+    
     render() {
         return (
             <div className="groupContain">
@@ -91,7 +116,10 @@ class Group extends Component {
                             {this.state.userGroupInput}
                             <ul>
                                 {this.state.groupMembers.map( member => {
-                                   return(<li>{member}</li>)
+                                   return(<li>
+                                            {member}
+                                       {/* <button onClick={() => this.removeName(name.uniqueKey)}></button> */}
+                                        </li>)
                                 } )}
                             </ul>
                      </div> 
