@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Results from "./Results";
 import firebase from './firebase';
 
 class Group extends Component {
@@ -24,9 +25,7 @@ class Group extends Component {
                     uniqueKey :key,
                 });
             }
-            // this.setState({
-            //     beforeNamesArray: newState,
-            // })
+
         });
     }
 
@@ -48,8 +47,8 @@ class Group extends Component {
             groupMembers: beforeSantaGroupMembers,
             userNameInput:'',
         })
+    
         
-        console.log(beforeSantaGroupMembers);
     }
     
     handleSubmit = (e) => {
@@ -79,16 +78,21 @@ class Group extends Component {
             userNameInput:'',
         });
 
-    
+        const selectSanta = document.getElementById("selectSanta"),
+            nameOptionMenu = beforeSantaGroupMembers;
+        for (let i = 0; i < nameOptionMenu.length; i++) {
+            let opt = nameOptionMenu[i];
+            let el = document.createElement("option")
+            el.textContent = opt;
+            el.value = opt;
+            selectSanta.append(el);
+        };
+
+        
         
     }
 
-    // removeName = (e) => {
-    //     e.preventDefault();
 
-    //     this.state.userNameInput.remove();
-    // }
-    
     render() {
         return (
             <div className="groupContain">
@@ -113,18 +117,25 @@ class Group extends Component {
                         </div>
                     </form>
                     <div>
+                        <div>
                             {this.state.userGroupInput}
-                            <ul>
-                                {this.state.groupMembers.map( member => {
-                                   return(<li>
+                        </div>
+                        <ul>
+                            {this.state.groupMembers.map( member => {
+                                return( <li>
                                             {member}
-                                       {/* <button onClick={() => this.removeName(name.uniqueKey)}></button> */}
                                         </li>)
-                                } )}
-                            </ul>
+                            } )}
+                        </ul>
                      </div> 
+
                 </div>
-            </div>
+            
+                <div>
+                    <Results/>
+                </div>   
+        </div>
+            
         );
     }
 }

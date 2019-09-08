@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Group from './Group';
 // import Names from "./Names";
-import Results from './Results';
+// import Results from './Results';
 import './App.css';
 // import firebase from './firebase';
 
@@ -14,11 +14,9 @@ class App extends Component {
        <div className="wrapper">
           <h1>Secret Santa!</h1>
           <div className="enterButton">
-           <button>Enter North Pole</button>
+            <button>Enter North Pole</button>
           </div>
           <Group/>
-          {/* <Names/> */}
-          <Results/>
         </div>
       </div>
     );
