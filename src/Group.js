@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Results from "./Results";
+
 import firebase from './firebase';
 
 class Group extends Component {
@@ -9,25 +9,26 @@ class Group extends Component {
             userGroupInput: '',
             groupMembers: [],
             userNameInput: '',
+           
         }
     }
 
-    componentDidMount() {
-        const dbRef = firebase.database().ref();
+    // componentDidMount() {
+    //     const dbRef = firebase.database().ref();
         
-        dbRef.on('value', (data) => {
-            const response = data.val()
-            const newState = [];
+    //     dbRef.on('value', (data) => {
+    //         const response = data.val()
+    //         const newState = [];
 
-            for(let key in response){
-                newState.push({
-                    person:response[key],
-                    uniqueKey :key,
-                });
-            }
+    //         for(let key in response){
+    //             newState.push({
+    //                 person:response[key],
+    //                 uniqueKey :key,
+    //             });
+    //         }
 
-        });
-    }
+    //     });
+    // }
 
     handleChange = (e) => {
         this.setState({
@@ -47,7 +48,6 @@ class Group extends Component {
             groupMembers: beforeSantaGroupMembers,
             userNameInput:'',
         })
-    
         
     }
     
@@ -70,26 +70,24 @@ class Group extends Component {
         dbRef.push({
             afterSanta,
             userGroupInput:this.state.userGroupInput,
-            // userNameInput:this.state.userNameInput
+            beforeSantaGroupMembers,
+        })
+
+        this.props.submitGroup({
+            afterSanta,
+            userGroupInput: this.state.userGroupInput,
+            beforeSantaGroupMembers,
         })
         
         this.setState({
             userGroupInput:'',
             userNameInput:'',
         });
+    
+    }
 
-        const selectSanta = document.getElementById("selectSanta"),
-            nameOptionMenu = beforeSantaGroupMembers;
-        for (let i = 0; i < nameOptionMenu.length; i++) {
-            let opt = nameOptionMenu[i];
-            let el = document.createElement("option")
-            el.textContent = opt;
-            el.value = opt;
-            selectSanta.append(el);
-        };
-
-        
-        
+    deleteName = function (id) {
+        this.state.groupMembers(id).remove();
     }
 
 
@@ -117,13 +115,14 @@ class Group extends Component {
                         </div>
                     </form>
                     <div>
-                        <div>
-                            {this.state.userGroupInput}
+                        <div className="groupName">
+                            <p>{this.state.userGroupInput}</p>
                         </div>
                         <ul>
                             {this.state.groupMembers.map( member => {
                                 return( <li>
                                             {member}
+                                            <button onClick={this.deleteName}>Delete Name</button>
                                         </li>)
                             } )}
                         </ul>
@@ -131,9 +130,9 @@ class Group extends Component {
 
                 </div>
             
-                <div>
-                    <Results/>
-                </div>   
+                
+                 
+                
         </div>
             
         );
