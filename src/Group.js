@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import Swal from 'sweetalert2'
 import firebase from './firebase';
 
 class Group extends Component {
@@ -40,29 +40,6 @@ class Group extends Component {
     submitGroupName = (e) => {
         e.preventDefault();
 
-        this.props.submitGroup({
-            userGroupInput: this.state.userGroupInput,
-
-        })
-
-        
-
-        // this.setState({
-        //     userGroupInput: '',
-        // });
-
-    //     const dbRef = firebase.database().ref();
-
-    //     dbRef.push({
-    //         userGroupInput:this.state.userGroupInput,
-    //     })
-
-        // return(
-        //     <div className="groupName">
-        //         <p>{this.state.userGroupInput}</p>
-        //     </div>
-        // )
-
     }
 
     submitNames = (e) => {
@@ -70,7 +47,14 @@ class Group extends Component {
         const beforeSantaGroupMembers = [...this.state.groupMembers]
 
         beforeSantaGroupMembers.push(this.state.userNameInput);
-
+        
+        if (!this.state.userNameInput) {
+            Swal.fire(
+                'Type a Name!',
+            )
+            // alert("please type a name!")
+            return('');
+        }
         
         this.setState({
             groupMembers: beforeSantaGroupMembers,
@@ -91,8 +75,6 @@ class Group extends Component {
             arrayShuffle(afterSanta);
 
             // console.log("this is after santa", afterSanta);
-        
-
         const dbRef = firebase.database().ref();
         
         dbRef.push({
@@ -102,9 +84,9 @@ class Group extends Component {
         })
 
         this.props.submitGroup({
+            beforeSantaGroupMembers,
             afterSanta,
             userGroupInput: this.state.userGroupInput,
-            beforeSantaGroupMembers,
         })
         
         this.setState({
@@ -114,8 +96,28 @@ class Group extends Component {
     
     }
 
-    // deleteName = function (id) {
-    //     this.state.groupMembers(id).remove();
+    deleteName = (index) => {
+        console.log(index);
+        console.log(this.state.groupMembers);
+
+        const copiedGroup = [...this.state.groupMembers];
+     console.log(copiedGroup);
+        copiedGroup.splice(index, 1);
+
+        console.log(copiedGroup);
+        // const newState = copiedGroup.filter((name, i) => index !== i);
+        // console.log(index, "index argument from map");
+
+        this.setState({
+           groupMembers: copiedGroup,
+        });
+    }
+
+
+    // deleteName = function () {
+    //     console.log("clicking delete");
+    //     this.state.userNameInput.remove();
+    //     // this.state.groupMembers(id).remove();
     // }
 
 
@@ -123,10 +125,6 @@ class Group extends Component {
         return (
             <div className="groupContain">
                 <div className="wrapper">
-                    {/* <h1>Select group or create new group</h1>
-                    <select id="select">
-                        <option value="">Group</option>
-                    </select> */}
                     <form action="">
                         <label htmlFor="userGroupInput">Enter your group name</label>
                         <input onChange={this.handleChange} type="text" name="userGroupInput" placeholder="enter group name" value={this.state.userGroupInput}/>
@@ -135,8 +133,6 @@ class Group extends Component {
                         <div className="groupName">
                             <p>{this.state.userGroupInput}</p>
                         </div>
-
-
 
                         <h1>Add Santas</h1>
                         <p>Add the names of each Santa and hit enter:</p>
@@ -150,22 +146,16 @@ class Group extends Component {
                         </div>
                     </form>
                     <div>
-                        
                         <ul>
-                            {this.state.groupMembers.map( member => {
+                            {this.state.groupMembers.map( (member, i) => {
                                 return( <li>
                                             {member}
-                                            <button onClick={this.deleteName}>Delete Name</button>
+                                            <button onClick={() => {this.deleteName(i)}}>Delete Name</button>
                                         </li>)
                             } )}
                         </ul>
                      </div> 
-
                 </div>
-            
-                
-                 
-                
         </div>
             
         );

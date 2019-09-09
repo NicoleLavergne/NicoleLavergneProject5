@@ -6,42 +6,61 @@ class Results extends Component {
         super();
         this.state = {
             selectedSanta: '',
-            // finalArray: this.props.beforeSanta,
+            santaResults:'',
         }
     }
 
     handleDropdown = (e) => {
-        this.setState({
-            selectedSanta:"",
-        });
 
-        console.log("selected santa" , this.state.selectedSanta);
-        
+        const selectedSanta = e.target.value;
+
+        this.setState({
+            selectedSanta
+        })
     }
 
     revealSanta = (e) => {
         e.preventDefault();
     
+        const selectedGroupArray = this.props.currentGroup.afterSanta
+        console.log(selectedGroupArray);
+        const giver = this.state.selectedSanta
+        
+        const giverIndex = (selectedGroupArray.indexOf(giver));
+        console.log(giverIndex);
+        let nextIndex = 0;
+    
 
-        // const selectedGiver = this.state.selectedSanta;
-        // console.log("this is the giver", selectedGiver);
-        console.log("submitted reveal santa");
+        if (giverIndex === selectedGroupArray.length - 1){
+            nextIndex = 0;
+        }
+        else{
+            nextIndex = giverIndex + 1;
+        }
 
-        // this.props.currentGroup({
-        // beforeSantaGroupMembers.map((name) => {
+        console.log("this is the next index", nextIndex);
 
-        // })
-        // })
-    //    afterSanta.forEach((pair) => {
-    //         if(pair[0] === selectedGiver){
-    //             return(
-    //                 <p>{selectedGiver} you have {pair[1]}!</p>
-    //             );
-                    
-    //         }
-    //     })
-    }
+        const receiverSanta = selectedGroupArray[nextIndex];
 
+        console.log(giver, "you have ", receiverSanta);
+       
+       {this.state.santaResults}  () => {
+
+           return(
+                   <p>
+                       {giver} you have {receiverSanta}!
+       
+                   </p>
+               )
+        
+       
+       } 
+        
+    };
+
+       
+
+       
     render() {
         return (
             <div className="resultsContain">
@@ -49,10 +68,10 @@ class Results extends Component {
                     <h1>Time to Draw!</h1>
                     <p>Each Santa will select their own name and their partner will be revealed. <span>No peaking!</span></p>
 
-                    <select onClick={this.handleDropdown} id="selectSanta">
+                    <select onChange={this.handleDropdown} id="selectSanta">
                         <option value="Select Name">Select Name</option>
                         {this.props.currentGroup.beforeSantaGroupMembers && this.props.currentGroup.beforeSantaGroupMembers.map(name => {
-                            return (<option value={this.state.selectedSanta}>
+                            return (<option value={name}>
                                 {name}
                             </option>)
                         })}
