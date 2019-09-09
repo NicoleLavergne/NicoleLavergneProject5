@@ -43,7 +43,7 @@ class App extends Component {
   }
 
   render(){
-    console.log(this.state.currentGroup);
+    // console.log(this.state.currentGroup);
     return (
       <div className="App">
        <div className="wrapper">

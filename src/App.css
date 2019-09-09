@@ -4,7 +4,11 @@ article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary
 
 * { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
 
-
+body{
+  font-size: 62.5%;
+  text-align: center;
+  
+}
 .groupContain{
   max-width: 80%;
   border:2px solid pink;

@@ -10,19 +10,22 @@ class Results extends Component {
         }
     }
 
-    // handleDropdown = (e) => {
-    //     this.setState({
-    //         selectedSanta:e.target.value
-    //     });
+    handleDropdown = (e) => {
+        this.setState({
+            selectedSanta:"",
+        });
+
+        console.log("selected santa" , this.state.selectedSanta);
         
-    // }
+    }
 
     revealSanta = (e) => {
         e.preventDefault();
-        
-        const selectedGiver = this.state.selectedSanta;
-        console.log("this is the giver", selectedGiver);
-        // console.log("submitted reveal santa");
+    
+
+        // const selectedGiver = this.state.selectedSanta;
+        // console.log("this is the giver", selectedGiver);
+        console.log("submitted reveal santa");
 
         // this.props.currentGroup({
         // beforeSantaGroupMembers.map((name) => {
@@ -40,14 +43,13 @@ class Results extends Component {
     }
 
     render() {
-        console.log(this.state.selectedSanta);
         return (
             <div className="resultsContain">
                 {this.props.currentGroup.afterSanta && <div className="wrapper">
                     <h1>Time to Draw!</h1>
                     <p>Each Santa will select their own name and their partner will be revealed. <span>No peaking!</span></p>
 
-                    <select >
+                    <select onClick={this.handleDropdown} id="selectSanta">
                         <option value="Select Name">Select Name</option>
                         {this.props.currentGroup.beforeSantaGroupMembers && this.props.currentGroup.beforeSantaGroupMembers.map(name => {
                             return (<option value={this.state.selectedSanta}>
@@ -56,8 +58,8 @@ class Results extends Component {
                         })}
                     </select>
         
-                
                     <button onClick={this.revealSanta} className="revealSubmit">Reveal Results</button>
+                
                 </div>} 
                 <div className="giftResults">
                     {/* {answer goes here} */}

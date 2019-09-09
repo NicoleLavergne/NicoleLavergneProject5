@@ -37,6 +37,34 @@ class Group extends Component {
         console.log(this.state.name);
     }
 
+    submitGroupName = (e) => {
+        e.preventDefault();
+
+        this.props.submitGroup({
+            userGroupInput: this.state.userGroupInput,
+
+        })
+
+        
+
+        // this.setState({
+        //     userGroupInput: '',
+        // });
+
+    //     const dbRef = firebase.database().ref();
+
+    //     dbRef.push({
+    //         userGroupInput:this.state.userGroupInput,
+    //     })
+
+        // return(
+        //     <div className="groupName">
+        //         <p>{this.state.userGroupInput}</p>
+        //     </div>
+        // )
+
+    }
+
     submitNames = (e) => {
         e.preventDefault();
         const beforeSantaGroupMembers = [...this.state.groupMembers]
@@ -55,14 +83,14 @@ class Group extends Component {
         e.preventDefault();
         
         const beforeSantaGroupMembers = [...this.state.groupMembers]
-        console.log("this is before santa array", beforeSantaGroupMembers);
+        // console.log("this is before santa array", beforeSantaGroupMembers);
 
         const arrayShuffle = require('shuffle-array'),
             afterSanta = beforeSantaGroupMembers;
 
             arrayShuffle(afterSanta);
 
-            console.log("this is after santa", afterSanta);
+            // console.log("this is after santa", afterSanta);
         
 
         const dbRef = firebase.database().ref();
@@ -86,22 +114,29 @@ class Group extends Component {
     
     }
 
-    deleteName = function (id) {
-        this.state.groupMembers(id).remove();
-    }
+    // deleteName = function (id) {
+    //     this.state.groupMembers(id).remove();
+    // }
 
 
     render() {
         return (
             <div className="groupContain">
                 <div className="wrapper">
-                    <h1>Select group or create new group</h1>
+                    {/* <h1>Select group or create new group</h1>
                     <select id="select">
                         <option value="">Group</option>
-                    </select>
+                    </select> */}
                     <form action="">
                         <label htmlFor="userGroupInput">Enter your group name</label>
                         <input onChange={this.handleChange} type="text" name="userGroupInput" placeholder="enter group name" value={this.state.userGroupInput}/>
+                        <label htmlFor="">Submit Group</label>
+                        <button onClick={this.submitGroupName}type="submit" name="submitGroupName">Submit Group</button>
+                        <div className="groupName">
+                            <p>{this.state.userGroupInput}</p>
+                        </div>
+
+
 
                         <h1>Add Santas</h1>
                         <p>Add the names of each Santa and hit enter:</p>
@@ -115,9 +150,7 @@ class Group extends Component {
                         </div>
                     </form>
                     <div>
-                        <div className="groupName">
-                            <p>{this.state.userGroupInput}</p>
-                        </div>
+                        
                         <ul>
                             {this.state.groupMembers.map( member => {
                                 return( <li>
