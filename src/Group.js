@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Swal from 'sweetalert2'
+// import FontAwesomeIcon  from '@fortawesome/react-fontawesome';
+// import faTimes  from '@fortawesome/free-solid-svg-icons';
 import firebase from './firebase';
 
 class Group extends Component {
@@ -9,6 +11,7 @@ class Group extends Component {
             userGroupInput: '',
             groupMembers: [],
             userNameInput: '',
+            visible:false
            
         }
     }
@@ -40,6 +43,12 @@ class Group extends Component {
     submitGroupName = (e) => {
         e.preventDefault();
 
+        // if (!this.state.userGroupInput) {
+        //     Swal.fire(
+        //         'Type a Group Name!',
+        //     )
+           
+        // }
     }
 
     submitNames = (e) => {
@@ -52,7 +61,6 @@ class Group extends Component {
             Swal.fire(
                 'Type a Name!',
             )
-            // alert("please type a name!")
             return('');
         }
         
@@ -97,29 +105,14 @@ class Group extends Component {
     }
 
     deleteName = (index) => {
-        console.log(index);
-        console.log(this.state.groupMembers);
-
         const copiedGroup = [...this.state.groupMembers];
-     console.log(copiedGroup);
+     
         copiedGroup.splice(index, 1);
-
-        console.log(copiedGroup);
-        // const newState = copiedGroup.filter((name, i) => index !== i);
-        // console.log(index, "index argument from map");
 
         this.setState({
            groupMembers: copiedGroup,
         });
     }
-
-
-    // deleteName = function () {
-    //     console.log("clicking delete");
-    //     this.state.userNameInput.remove();
-    //     // this.state.groupMembers(id).remove();
-    // }
-
 
     render() {
         return (
@@ -134,8 +127,8 @@ class Group extends Component {
                             <p>{this.state.userGroupInput}</p>
                         </div>
 
-                        <h1>Add Santas</h1>
-                        <p>Add the names of each Santa and hit enter:</p>
+                        <h2>Add Santas</h2>
+                        <p>Type the name of each group member and click <span>add name</span></p>
                         <label htmlFor="nameName">Enter a name</label>
                         <input onChange={this.handleChange} type="text" name="userNameInput" value={this.state.userNameInput} />
 
@@ -145,12 +138,15 @@ class Group extends Component {
                             <button onClick={this.handleSubmit} className="submitNames"> Mix it up!</button>
                         </div>
                     </form>
-                    <div>
+                    <div className="namesContainer">
                         <ul>
                             {this.state.groupMembers.map( (member, i) => {
                                 return( <li>
                                             {member}
-                                            <button onClick={() => {this.deleteName(i)}}>Delete Name</button>
+                                        <label htmlFor="button" >delete name</label>
+                                        <button onClick={() => { this.deleteName(i) }} name="button">
+                                        {/* <FontAwesomeIcon icon={faTimes} /> */}
+                                        </button>
                                         </li>)
                             } )}
                         </ul>

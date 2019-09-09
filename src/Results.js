@@ -7,7 +7,11 @@ class Results extends Component {
         this.state = {
             selectedSanta: '',
             santaResults:'',
+            reciever:'',
+            visible:'',
+            resultsShowing:false
         }
+
     }
 
     handleDropdown = (e) => {
@@ -15,11 +19,12 @@ class Results extends Component {
         const selectedSanta = e.target.value;
 
         this.setState({
-            selectedSanta
+            selectedSanta: selectedSanta,
         })
     }
 
     revealSanta = (e) => {
+
         e.preventDefault();
     
         const selectedGroupArray = this.props.currentGroup.afterSanta
@@ -43,21 +48,20 @@ class Results extends Component {
         const receiverSanta = selectedGroupArray[nextIndex];
 
         console.log(giver, "you have ", receiverSanta);
-       
-       {this.state.santaResults}  () => {
-
-           return(
-                   <p>
-                       {giver} you have {receiverSanta}!
-       
-                   </p>
-               )
-        
-       
-       } 
+        console.log('danii wrote this', this.state.selectedSanta);
+        console.log('danii also wrote this', receiverSanta);
+        this.setState({
+            receiver: receiverSanta,
+            resultsShowing:true
+        })
         
     };
 
+    newSanta=()=>{
+        this.setState({
+            resultsShowing:false
+        })
+    }
        
 
        
@@ -66,7 +70,7 @@ class Results extends Component {
             <div className="resultsContain">
                 {this.props.currentGroup.afterSanta && <div className="wrapper">
                     <h1>Time to Draw!</h1>
-                    <p>Each Santa will select their own name and their partner will be revealed. <span>No peaking!</span></p>
+                    <p>Each Santa will select their own name and their partner will be revealed. <span>No peeking!</span></p>
 
                     <select onChange={this.handleDropdown} id="selectSanta">
                         <option value="Select Name">Select Name</option>
@@ -78,11 +82,13 @@ class Results extends Component {
                     </select>
         
                     <button onClick={this.revealSanta} className="revealSubmit">Reveal Results</button>
-                
                 </div>} 
-                <div className="giftResults">
-                    {/* {answer goes here} */}
-                </div>  
+
+                {this.state.resultsShowing && <div className="giftResults">
+                    <p>{this.state.selectedSanta} your secret santa is {this.state.receiver}</p>
+                    <button onClick={this.newSanta}>choose new santa</button>
+                    </div>  }
+
             </div>
         );
     }

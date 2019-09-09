@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Group from './Group';
 import Results from './Results';
+import Enter from './Enter';
 import './App.css';
 import firebase from './firebase';
 
@@ -10,9 +11,12 @@ class App extends Component {
    this.state = {
      afterSanta :[],
      currentGroup: [],
+     visible: true
 
    }
  }
+
+ 
 
  submitGroup = (currentGroup) => {
    this.setState ({
@@ -47,11 +51,15 @@ class App extends Component {
     return (
       <div className="App">
        <div className="wrapper">
+          {this.state.visible && <Enter />} 
+        {/* <div className="enter">
           <h1>Secret Santa!</h1>
           <div className="enterButton">
-            <button>Enter North Pole</button>
+            <button onClick={this.enterNorthPole}>Enter North Pole</button>
           </div>
-          <Group submitGroup={this.submitGroup}/>
+         </div> */}
+          {this.state.visible && <Group submitGroup={this.submitGroup} />}
+          
           <Results currentGroup={this.state.currentGroup} />
         </div>
       </div>
