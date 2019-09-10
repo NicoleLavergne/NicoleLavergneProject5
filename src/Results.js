@@ -55,8 +55,9 @@ class Results extends Component {
     render() {
         return (
             <div className="resultsContain">
-                <div>
-                    <h1>Time to Draw!</h1>
+                {this.props.currentGroup.afterSanta &&
+                     <div>
+                    <h1 className="resultHeading">Time to Draw!</h1>
                     <p className="noPeeking">Each Santa will select their own name and their results will be revealed. <span>No peeking!</span></p>
 
                     <select onChange={this.handleDropdown} id="selectSanta">
@@ -69,7 +70,7 @@ class Results extends Component {
                     </select>
         
                     <button onClick={this.revealSanta} className="revealSubmit">Reveal Results</button>
-                </div>
+                </div>} 
 
                 {this.state.resultsShowing && <div className="giftResults">
                     <div className="resultPContain">

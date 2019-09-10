@@ -34,7 +34,6 @@ class App extends Component {
     this.setState({
       groupVisible: false,
     })
-    console.log("clicking submit");
   }
 
 componentDidMount() {
