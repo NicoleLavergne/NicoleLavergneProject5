@@ -11,10 +11,10 @@ class App extends Component {
    this.state = {
      afterSanta :[],
      currentGroup: [],
-     visible:true
+     titleVisible:true,
+     groupVisible:false,
    }
  }
-
 
  submitGroup = (currentGroup) => {
    this.setState ({
@@ -22,40 +22,56 @@ class App extends Component {
    })
  }
 
-  componentDidMount() {
-    const dbRef = firebase.database().ref();
+  enterNorthPole = () => {
+    this.setState({
+      titleVisible: false,
+      groupVisible: true,
+
+    })
+  }
+
+  handleSubmit = () =>{
+    this.setState({
+      groupVisible: false,
+    })
+    console.log("clicking submit");
+  }
+
+componentDidMount() {
+  const dbRef = firebase.database().ref();
 
     dbRef.on('value', (data) => {
       const response = data.val()
       const groupType = [];
       console.log(response);
 
-      for (let key in response) {
-        groupType.push({
-          group: response[key],
-          uniqueKey: key,
+    for (let key in response) {
+      groupType.push({
+        group: response[key],
+        uniqueKey: key,
 
-        });
-      }
-      this.setState({
-        afterSanta :groupType
-      })
-
-    });
+      });
   }
+
+    this.setState({
+        afterSanta :groupType
+    })
+
+  });
+}
 
   render(){
     return (
       <div className="App">
        <div className="wrapper">
-          {this.state.visible && <Enter/>} 
-          {this.state.visible && <Group submitGroup={this.submitGroup} />}
+          {this.state.titleVisible && <Enter enterNorthPole={this.enterNorthPole} />} 
+          {this.state.groupVisible && <Group submitGroup={this.submitGroup} handleSubmit={this.handleSubmit}/>}
           
-          <Results currentGroup={this.state.currentGroup} />
+          <Results currentGroup={this.state.currentGroup} handleSubmit={this.handleSubmit}/>
         </div>
-        {/* <footer>
+        <footer>
           <p>designed and developed by Nicole Lavergne</p>
-        </footer> */}
+        </footer>
       </div>
     );
   }

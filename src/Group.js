@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import Swal from 'sweetalert2'
-// import FontAwesomeIcon  from '@fortawesome/react-fontawesome';
-// import faTimes  from '@fortawesome/free-solid-svg-icons';
 import firebase from './firebase';
 
 class Group extends Component {
@@ -12,7 +10,6 @@ class Group extends Component {
             groupMembers: [],
             userNameInput: '',
             groupEntered:false,
-            visible:false
         }
     }
 
@@ -71,17 +68,10 @@ class Group extends Component {
         this.setState({
             userGroupInput:'',
             userNameInput:'',
-            visible:false
         });
+        console.log("clicking submit");
     
     }
-
-    // showGroup = () => {
-    //     this.setState({
-    //         visible:true
-
-    //     })
-    // }
 
     deleteName = (index) => {
         const copiedGroup = [...this.state.groupMembers];
@@ -97,11 +87,11 @@ class Group extends Component {
         return (
             <div className="groupContain">
                 <div className="wrapper">
+                    <h1 className="groupHeading">Secret Santa!</h1>
                     <form action="">
                         <label htmlFor="userGroupInput" className="groupLabel">Enter your group name: </label>
                         <input onChange={this.handleChange} type="text" name="userGroupInput" placeholder="group name" value={this.state.userGroupInput} className="groupInput"/>
 
-                        {/* <button  type="submit" name="submitGroupName">Submit Group</button> */}
 
                         <div className="groupNameContain">
                             <p className="groupName" placeholder="name">{this.state.userGroupInput}</p>
@@ -112,7 +102,7 @@ class Group extends Component {
                             <label htmlFor="userNameInput" className="nameLabel">Type the name of each group member and <span>add name</span></label>
                             <input onChange={this.handleChange} type="text" name="userNameInput" value={this.state.userNameInput} className="nameInputArea"/>
 
-                            <button onClick={this.submitNames} className="nameButton">Add Name</button>
+                            <button onClick={this.submitNames} className="nameButton" >Add Name</button>
                             <p>Make sure to check your list twice before submitting</p>
 
                         </div>
@@ -127,7 +117,6 @@ class Group extends Component {
                             {this.state.groupMembers.map( (member, i) => {
                                 return( <li>
                                             {member}
-                                        {/* <label htmlFor="button" >delete name</label> */}
                                         <button onClick={() => { this.deleteName(i) }} name="button">
                                         remove
                                         </button>

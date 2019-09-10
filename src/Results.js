@@ -8,8 +8,6 @@ class Results extends Component {
             selectedSanta: '',
             santaResults:'',
             reciever:'',
-            visible:false,
-            resultsShowing:false
         }
 
     }
@@ -32,7 +30,6 @@ class Results extends Component {
         const giverIndex = (selectedGroupArray.indexOf(giver));
         let nextIndex = 0;
     
-
         if (giverIndex === selectedGroupArray.length - 1){
             nextIndex = 0;
         }
@@ -45,7 +42,6 @@ class Results extends Component {
         this.setState({
             receiver: receiverSanta,
             resultsShowing:true,
-            visible:false
         })
         
     };
@@ -58,8 +54,8 @@ class Results extends Component {
        
     render() {
         return (
-                <div className="resultsContain">
-                {this.props.currentGroup.afterSanta && <div>
+            <div className="resultsContain">
+                <div>
                     <h1>Time to Draw!</h1>
                     <p className="noPeeking">Each Santa will select their own name and their results will be revealed. <span>No peeking!</span></p>
 
@@ -73,17 +69,14 @@ class Results extends Component {
                     </select>
         
                     <button onClick={this.revealSanta} className="revealSubmit">Reveal Results</button>
-                </div>} 
-            
+                </div>
 
                 {this.state.resultsShowing && <div className="giftResults">
                     <div className="resultPContain">
-                        <p className="resultPar">{this.state.selectedSanta} you have <span>{this.state.receiver}</span> !</p>
+                        <p className="resultPar">{this.state.selectedSanta} you have <span>{this.state.receiver}</span></p>
                     </div>
-                    <button onClick={this.newSanta} className="newSanta">next santa</button>
-                        
-                </div>  
-                }
+                    <button onClick={this.newSanta} className="newSanta">next santa</button> 
+                </div>  }
             </div>
         );
     }
