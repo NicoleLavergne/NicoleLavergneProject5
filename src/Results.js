@@ -8,7 +8,7 @@ class Results extends Component {
             selectedSanta: '',
             santaResults:'',
             reciever:'',
-            visible:'',
+            visible:false,
             resultsShowing:false
         }
 
@@ -28,11 +28,8 @@ class Results extends Component {
         e.preventDefault();
     
         const selectedGroupArray = this.props.currentGroup.afterSanta
-        console.log(selectedGroupArray);
         const giver = this.state.selectedSanta
-        
         const giverIndex = (selectedGroupArray.indexOf(giver));
-        console.log(giverIndex);
         let nextIndex = 0;
     
 
@@ -43,34 +40,28 @@ class Results extends Component {
             nextIndex = giverIndex + 1;
         }
 
-        console.log("this is the next index", nextIndex);
-
         const receiverSanta = selectedGroupArray[nextIndex];
 
-        console.log(giver, "you have ", receiverSanta);
-        console.log('danii wrote this', this.state.selectedSanta);
-        console.log('danii also wrote this', receiverSanta);
         this.setState({
             receiver: receiverSanta,
-            resultsShowing:true
+            resultsShowing:true,
+            visible:false
         })
         
     };
 
-    newSanta=()=>{
+    newSanta =() => {
         this.setState({
             resultsShowing:false
         })
     }
        
-
-       
     render() {
         return (
-            <div className="resultsContain">
-                {this.props.currentGroup.afterSanta && <div className="wrapper">
+                <div className="resultsContain">
+                {this.props.currentGroup.afterSanta && <div>
                     <h1>Time to Draw!</h1>
-                    <p>Each Santa will select their own name and their partner will be revealed. <span>No peeking!</span></p>
+                    <p className="noPeeking">Each Santa will select their own name and their results will be revealed. <span>No peeking!</span></p>
 
                     <select onChange={this.handleDropdown} id="selectSanta">
                         <option value="Select Name">Select Name</option>
@@ -83,12 +74,16 @@ class Results extends Component {
         
                     <button onClick={this.revealSanta} className="revealSubmit">Reveal Results</button>
                 </div>} 
+            
 
                 {this.state.resultsShowing && <div className="giftResults">
-                    <p>{this.state.selectedSanta} your secret santa is {this.state.receiver}</p>
-                    <button onClick={this.newSanta}>choose new santa</button>
-                    </div>  }
-
+                    <div className="resultPContain">
+                        <p className="resultPar">{this.state.selectedSanta} you have <span>{this.state.receiver}</span> !</p>
+                    </div>
+                    <button onClick={this.newSanta} className="newSanta">next santa</button>
+                        
+                </div>  
+                }
             </div>
         );
     }

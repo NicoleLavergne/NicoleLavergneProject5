@@ -11,44 +11,17 @@ class Group extends Component {
             userGroupInput: '',
             groupMembers: [],
             userNameInput: '',
+            groupEntered:false,
             visible:false
-           
         }
     }
 
-    // componentDidMount() {
-    //     const dbRef = firebase.database().ref();
-        
-    //     dbRef.on('value', (data) => {
-    //         const response = data.val()
-    //         const newState = [];
-
-    //         for(let key in response){
-    //             newState.push({
-    //                 person:response[key],
-    //                 uniqueKey :key,
-    //             });
-    //         }
-
-    //     });
-    // }
 
     handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         });
         console.log(this.state.name);
-    }
-
-    submitGroupName = (e) => {
-        e.preventDefault();
-
-        // if (!this.state.userGroupInput) {
-        //     Swal.fire(
-        //         'Type a Group Name!',
-        //     )
-           
-        // }
     }
 
     submitNames = (e) => {
@@ -75,14 +48,12 @@ class Group extends Component {
         e.preventDefault();
         
         const beforeSantaGroupMembers = [...this.state.groupMembers]
-        // console.log("this is before santa array", beforeSantaGroupMembers);
-
+    
         const arrayShuffle = require('shuffle-array'),
             afterSanta = beforeSantaGroupMembers;
 
             arrayShuffle(afterSanta);
 
-            // console.log("this is after santa", afterSanta);
         const dbRef = firebase.database().ref();
         
         dbRef.push({
@@ -100,9 +71,17 @@ class Group extends Component {
         this.setState({
             userGroupInput:'',
             userNameInput:'',
+            visible:false
         });
     
     }
+
+    // showGroup = () => {
+    //     this.setState({
+    //         visible:true
+
+    //     })
+    // }
 
     deleteName = (index) => {
         const copiedGroup = [...this.state.groupMembers];
@@ -119,33 +98,38 @@ class Group extends Component {
             <div className="groupContain">
                 <div className="wrapper">
                     <form action="">
-                        <label htmlFor="userGroupInput">Enter your group name</label>
-                        <input onChange={this.handleChange} type="text" name="userGroupInput" placeholder="enter group name" value={this.state.userGroupInput}/>
-                        <label htmlFor="">Submit Group</label>
-                        <button onClick={this.submitGroupName}type="submit" name="submitGroupName">Submit Group</button>
-                        <div className="groupName">
-                            <p>{this.state.userGroupInput}</p>
+                        <label htmlFor="userGroupInput" className="groupLabel">Enter your group name: </label>
+                        <input onChange={this.handleChange} type="text" name="userGroupInput" placeholder="group name" value={this.state.userGroupInput} className="groupInput"/>
+
+                        {/* <button  type="submit" name="submitGroupName">Submit Group</button> */}
+
+                        <div className="groupNameContain">
+                            <p className="groupName" placeholder="name">{this.state.userGroupInput}</p>
                         </div>
 
-                        <h2>Add Santas</h2>
-                        <p>Type the name of each group member and click <span>add name</span></p>
-                        <label htmlFor="nameName">Enter a name</label>
-                        <input onChange={this.handleChange} type="text" name="userNameInput" value={this.state.userNameInput} />
 
-                        <button onClick={this.submitNames}>Add Name</button>
+                        <div className="nameContain">
+                            <label htmlFor="userNameInput" className="nameLabel">Type the name of each group member and <span>add name</span></label>
+                            <input onChange={this.handleChange} type="text" name="userNameInput" value={this.state.userNameInput} className="nameInputArea"/>
 
-                        <div>
-                            <button onClick={this.handleSubmit} className="submitNames"> Mix it up!</button>
+                            <button onClick={this.submitNames} className="nameButton">Add Name</button>
+                            <p>Make sure to check your list twice before submitting</p>
+
+                        </div>
+
+                        <div className="mix">
+                            <button onClick={this.handleSubmit} className="submitNames"> Send to Santa!</button>
                         </div>
                     </form>
-                    <div className="namesContainer">
+
+                    <div className="nameList">
                         <ul>
                             {this.state.groupMembers.map( (member, i) => {
                                 return( <li>
                                             {member}
-                                        <label htmlFor="button" >delete name</label>
+                                        {/* <label htmlFor="button" >delete name</label> */}
                                         <button onClick={() => { this.deleteName(i) }} name="button">
-                                        {/* <FontAwesomeIcon icon={faTimes} /> */}
+                                        remove
                                         </button>
                                         </li>)
                             } )}

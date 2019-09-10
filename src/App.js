@@ -11,16 +11,14 @@ class App extends Component {
    this.state = {
      afterSanta :[],
      currentGroup: [],
-     visible: true
-
+     visible:true
    }
  }
 
- 
 
  submitGroup = (currentGroup) => {
    this.setState ({
-     currentGroup
+     currentGroup:currentGroup
    })
  }
 
@@ -47,21 +45,17 @@ class App extends Component {
   }
 
   render(){
-    // console.log(this.state.currentGroup);
     return (
       <div className="App">
        <div className="wrapper">
-          {this.state.visible && <Enter />} 
-        {/* <div className="enter">
-          <h1>Secret Santa!</h1>
-          <div className="enterButton">
-            <button onClick={this.enterNorthPole}>Enter North Pole</button>
-          </div>
-         </div> */}
+          {this.state.visible && <Enter/>} 
           {this.state.visible && <Group submitGroup={this.submitGroup} />}
           
           <Results currentGroup={this.state.currentGroup} />
         </div>
+        {/* <footer>
+          <p>designed and developed by Nicole Lavergne</p>
+        </footer> */}
       </div>
     );
   }
