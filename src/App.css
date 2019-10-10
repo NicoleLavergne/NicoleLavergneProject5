@@ -10,6 +10,7 @@ body{
   background-image:url("images/background.jpg");
   background-size:cover;
 }
+
 .enter{
   height:90vh;
 }
@@ -131,20 +132,19 @@ span{
   border-radius:3px;
   background:#30422E;
   color:#edecde;
+  transition:all .3s;
 }
 
  .nameButton:hover , .submitNames:hover, .submitNames:hover, .newSanta:hover{
   border:1px solid #30422E;
   background:#f0f0ea;
   color:#30422E;
-  transition:.3s;
 }
 
 .enterButton:hover{
   border:1px solid #30422E;
   background:rgb(210, 8, 8);
   color:#f0f0ea;
-  transition:.3s;
 }
 
 .enterButton:active{

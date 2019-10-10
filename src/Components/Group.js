@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Swal from 'sweetalert2'
-import firebase from './firebase';
+import firebase from '../firebase';
 
 class Group extends Component {
     constructor() {
@@ -13,12 +13,10 @@ class Group extends Component {
         }
     }
 
-
     handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         });
-        console.log(this.state.name);
     }
 
     submitNames = (e) => {
@@ -53,6 +51,13 @@ class Group extends Component {
 
         const dbRef = firebase.database().ref();
         
+        if (!this.state.userGroupInput) {
+            Swal.fire(
+                'Type a Group name!',
+            )
+            return ('');
+        }
+
         dbRef.push({
             afterSanta,
             userGroupInput:this.state.userGroupInput,
@@ -69,7 +74,6 @@ class Group extends Component {
             userGroupInput:'',
             userNameInput:'',
         });
-        console.log("clicking submit");
     
     }
 
@@ -92,11 +96,9 @@ class Group extends Component {
                         <label htmlFor="userGroupInput" className="groupLabel">Enter your group name: </label>
                         <input onChange={this.handleChange} type="text" name="userGroupInput" placeholder="group name" value={this.state.userGroupInput} className="groupInput"/>
 
-
                         <div className="groupNameContain">
                             <p className="groupName" placeholder="name">{this.state.userGroupInput}</p>
                         </div>
-
 
                         <div className="nameContain">
                             <label htmlFor="userNameInput" className="nameLabel">Type the name of each group member and <span>add name</span></label>
@@ -104,7 +106,6 @@ class Group extends Component {
 
                             <button onClick={this.submitNames} className="nameButton" >Add Name</button>
                             <p>Make sure to check your list twice before submitting</p>
-
                         </div>
 
                         <div className="mix">
@@ -117,16 +118,15 @@ class Group extends Component {
                             {this.state.groupMembers.map( (member, i) => {
                                 return( <li>
                                             {member}
-                                        <button onClick={() => { this.deleteName(i) }} name="button">
-                                        remove
-                                        </button>
+                                            <button onClick={() => { this.deleteName(i) }} name="button">
+                                            remove
+                                            </button>
                                         </li>)
                             } )}
                         </ul>
                      </div> 
                 </div>
-        </div>
-            
+            </div>
         );
     }
 }

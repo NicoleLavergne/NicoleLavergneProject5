@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import Group from './Group';
-import Results from './Results';
-import Enter from './Enter';
+import Group from './Components/Group';
+import Results from './Components/Results';
+import Enter from './Components/Enter';
 import './App.css';
 import firebase from './firebase';
 
@@ -16,6 +16,7 @@ class App extends Component {
    }
  }
 
+// currentGroup is the name of the group that is being submitted and getting pushed to firebase 
  submitGroup = (currentGroup) => {
    this.setState ({
      currentGroup:currentGroup
@@ -36,26 +37,24 @@ class App extends Component {
     })
   }
 
+  // groupType represents an array of all the groups in firebase
 componentDidMount() {
   const dbRef = firebase.database().ref();
 
     dbRef.on('value', (data) => {
       const response = data.val()
       const groupType = [];
-      console.log(response);
 
     for (let key in response) {
-      groupType.push({
+        groupType.push({
         group: response[key],
         uniqueKey: key,
-
       });
   }
 
     this.setState({
         afterSanta :groupType
     })
-
   });
 }
 
@@ -65,12 +64,13 @@ componentDidMount() {
        <div className="wrapper">
           {this.state.titleVisible && <Enter enterNorthPole={this.enterNorthPole} />} 
           {this.state.groupVisible && <Group submitGroup={this.submitGroup} handleSubmit={this.handleSubmit}/>}
-          
           <Results currentGroup={this.state.currentGroup} handleSubmit={this.handleSubmit}/>
         </div>
+
         <footer>
           <p>designed and developed by Nicole Lavergne</p>
         </footer>
+
       </div>
     );
   }
